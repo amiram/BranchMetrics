@@ -1,0 +1,74 @@
+﻿<!DOCTYPE html> 
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/react.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/JSXTransformer.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.2/marked.min.js"></script>
+    <style>
+        body
+        {
+            font-family: 'Times New Roman', Times, serif
+        }
+        
+        CollapsibleSection div
+        {
+            max-width: 270px;
+            border: 1px solid #CBCBCB;
+        }
+        CollapsibleSection .title
+        {
+            background-color: #A9A9A9;
+            margin: 0;
+            padding: 5px;
+        }
+        CollapsibleSection .body
+        {
+            height: 400px;
+            padding: 0 5px 0 5px;
+            overflow: hidden;
+            transition: height 1s;
+            -moz-transition: height 1s; /* Firefox 4 */
+            -webkit-transition: height 1s; /* Safari and Chrome */
+            -o-transition: height 1s; /* Opera */
+        }
+    </style>
+</head>
+<body>
+    <CollapsibleSection title="This is the title">
+        This is the body.<br /><br />Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent volutpat varius est, sed rhoncus felis vehicula non. Interdum et malesuada fames ac ante ipsum primis in faucibus. Fusce sit amet arcu malesuada, dapibus mi ac, commodo arcu. Donec at semper nibh. Duis pulvinar sagittis sollicitudin. Morbi mollis nisl tincidunt ligula tincidunt mollis. Nam interdum ligula nec libero ullamcorper, ut sodales lorem lacinia. Interdum et malesuada fames ac ante ipsum primis in faucibus. Donec lectus neque, porttitor sed fermentum vitae, tincidunt sed ante. Vestibulum urna sapien, sollicitudin id dolor nec, sagittis venenatis lacus.
+    </CollapsibleSection>
+    <script type="text/jsx">
+        var element = document.getElementsByTagName('CollapsibleSection')[0];
+        var data = {
+            title: element.getAttribute('title'),
+            body: element.innerText
+        };
+
+        var CollapsibleSectionContent = React.createClass({
+            componentDidMount: function() {
+                var title = document.getElementsByClassName('title')[0];
+                var body = document.getElementsByClassName('body')[0];
+                title.addEventListener('click', function () {
+                    if (body.style.height === '0px')
+                        body.style.height = '400px';
+                    else
+                        body.style.height = '0px';
+                });
+            },
+            render: function() {
+                var rawMarkup = marked(this.props.data.body, {sanitize: true});
+                return (
+                    <div>
+                        <h1 className="title">{this.props.data.title}</h1>
+                        <div className="body" dangerouslySetInnerHTML={{__html: rawMarkup}} />
+                    </div>
+                );
+            }
+        });
+        React.render(<CollapsibleSectionContent data={data} />, element);
+    </script>
+</body>
+</html>
