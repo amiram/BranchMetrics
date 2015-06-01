@@ -1,2 +1,2 @@
 # BranchMetrics
-http://amiram.github.io/BranchMetrics/Source/default.html
+http://amiram.github.io/BranchMetrics/react.html
